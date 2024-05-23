@@ -6,7 +6,7 @@
 # Base URL for Alfred workflows
 BASE_URL="https://alfred.app/workflows/"
 DOWNLOAD_PREFIX="https://alfred.app"
-DOWNLOAD_SUFFIX="/download"
+DOWNLOAD_SUFFIX="download"
 
 # Directory to store downloaded workflows
 DOWNLOAD_DIR="alfred_workflows"
@@ -38,7 +38,13 @@ extract_workflow_links_from_page() {
 
         # Fetch metadata to extract version info
         workflow_page_content=$(curl --silent "${workflow_page_url}")
-        version=$(echo "${workflow_page_content}" | htmlq --text '#workflowmetadata a:nth-of-type(1)')
+        version=$(echo "${workflow_page_content}" | htmlq -t '#workflowmetadata')
+        version=$(echo "${version}" | grep -oE 'Version [^ ]+' | cut -d ' ' -f 2)
+
+        # Check if version was correctly parsed, if not set a default value
+        if [[ -z "${version}" ]]; then
+            version="unknown_version"
+        fi
 
         # Construct download URL and filename
         workflow_download_url="${DOWNLOAD_PREFIX}${workflow_page_link}${DOWNLOAD_SUFFIX}"
