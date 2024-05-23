@@ -1,6 +1,6 @@
 const fs = require('fs');
-const plist = require('plist');
 const path = require('path');
+const { parsePlistFiles, sanitizeKey, setNestedProperty } = require('./utils');
 
 // Directory containing the extracted info.plist files
 const PLISTS_DIR = 'extracted_info_plists';
@@ -10,29 +10,15 @@ const TYPINGS_FILE = 'typings.d.ts';
 // Array of keys to exclude and set directly to string type
 const exclusionList = [
   'bundleid',
-  "createdby",
-  "description",
-  "name",
-  "version",
-  "webaddress",
+  'createdby',
+  'description',
+  'name',
+  'version',
+  'webaddress',
 ];
-
-// Regular expressions to match UUIDs and numeric indices
-const uuidRegex = /[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}/i;
-const indexRegex = /^\d+$/;
 
 // Read all keys from the previously generated file
 const allKeys = JSON.parse(fs.readFileSync(ALL_KEYS_FILE, 'utf8'));
-
-// Function to sanitize keys
-function sanitizeKey(key) {
-  if (uuidRegex.test(key)) {
-    return '<UID>';
-  } else if (indexRegex.test(key)) {
-    return '<INDEX>';
-  }
-  return key;
-}
 
 // Function to collect possible values for each key
 function collectValues(obj, key, valuesMap) {
@@ -64,27 +50,14 @@ function collectValues(obj, key, valuesMap) {
 function extractValues() {
   const valuesMap = {};
 
-  // Read all files in the directory
-  const files = fs.readdirSync(PLISTS_DIR);
+  // Parse plist files
+  const plistObjects = parsePlistFiles(PLISTS_DIR);
 
-  // Filter .plist files
-  const plistFiles = files.filter(file => path.extname(file) === '.plist');
-
-  plistFiles.forEach(file => {
-    const filePath = path.join(PLISTS_DIR, file);
-
-    // Read and parse the plist file
-    const data = fs.readFileSync(filePath, 'utf8');
-    try {
-      const obj = plist.parse(data);
-
-      allKeys.forEach(key => {
-        collectValues(obj, key, valuesMap);
-      });
-
-    } catch (parseErr) {
-      console.error(`Unable to parse plist file: ${filePath}`, parseErr);
-    }
+  // Collect values from plist files
+  plistObjects.forEach(obj => {
+    allKeys.forEach(key => {
+      collectValues(obj, key, valuesMap);
+    });
   });
 
   return valuesMap;
@@ -116,21 +89,6 @@ function generateNestedTypings(valuesMap) {
   });
 
   return root;
-}
-
-// Helper function to set deeply nested properties of an object
-function setNestedProperty(obj, path, value) {
-  const parts = path.split('.');
-  while (parts.length > 1) {
-    const part = parts.shift();
-    if (!obj[part]) {
-      obj[part] = {};
-    }
-    obj = obj[part];
-  }
-  if (typeof obj === 'object' && obj !== null) {
-    obj[parts.shift()] = value;
-  }
 }
 
 // Function to generate TypeScript typings
