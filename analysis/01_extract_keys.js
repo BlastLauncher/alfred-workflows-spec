@@ -58,7 +58,7 @@ function extractKeys() {
   });
 
   // Write all keys to a file
-  fs.writeFileSync(ALL_KEYS_FILE, JSON.stringify(Array.from(keysSet), null, 2));
+  fs.writeFileSync(ALL_KEYS_FILE, JSON.stringify(Array.from(keysSet).toSorted(), null, 2));
   console.log(`Extracted keys are saved to ${ALL_KEYS_FILE}`);
 }
 
