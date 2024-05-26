@@ -13,14 +13,12 @@ const allKeys = JSON.parse(fs.readFileSync(ALL_KEYS_FILE, 'utf8'));
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: '> ',
+  prompt: 'Enter the key to check possible values: ',
 });
 
 // Function to normalize keys by replacing UUIDs and indices
 function normalizeKey(key) {
-  return key
-    .replace(uuidRegex, '<UID>')
-    .replace(indexRegex, '<INDEX>');
+  return key.replace(uuidRegex, '<UID>').replace(indexRegex, '<INDEX>');
 }
 
 // Function to recursively normalize object keys
@@ -86,26 +84,22 @@ function extractValues() {
 
 // Function to convert possible values to TypeScript literal types
 function toLiteralTypes(possibleValues) {
-  return Array.from(possibleValues).map(value => JSON.parse(value)) // Parse JSON strings
-    .map(value => typeof value === 'string' ? `'${value}'` : value) // Wrap strings in single quotes
+  return Array.from(possibleValues)
+    .map(value => JSON.parse(value)) // Parse JSON strings
+    .map(value => (typeof value === 'string' ? `'${value}'` : value)) // Wrap strings in single quotes
     .join(' | ');
 }
 
-// Function to prompt user for key and display possible values
-async function promptUserForKey(valuesMap) {
-  return new Promise((resolve) => {
-    rl.question('Enter the key to check possible values: ', (key) => {
-      const normalizedKey = normalizeKey(key);
-      if (valuesMap[normalizedKey]) {
-        console.log(`Key: ${normalizedKey}`);
-        const literalTypes = toLiteralTypes(valuesMap[normalizedKey]);
-        console.log(`Possible Values: ${literalTypes}`);
-      } else {
-        console.log(`No values found for key: ${normalizedKey}`);
-      }
-      resolve();
-    });
-  });
+// Function to handle user input and display possible values
+async function handleUserInput(valuesMap, line) {
+  const normalizedKey = normalizeKey(line.trim());
+  if (valuesMap[normalizedKey]) {
+    console.log(`Key: ${normalizedKey}`);
+    const literalTypes = toLiteralTypes(valuesMap[normalizedKey]);
+    console.log(`Possible Values: ${literalTypes}`);
+  } else {
+    console.log(`No values found for key: ${normalizedKey}`);
+  }
 }
 
 // Main function to execute the script
@@ -116,7 +110,7 @@ async function main() {
   // REPL loop to prompt user for key and display possible values
   rl.prompt();
   rl.on('line', async (line) => {
-    await promptUserForKey(valuesMap);
+    await handleUserInput(valuesMap, line);
     rl.prompt();
   }).on('close', () => {
     console.log('Goodbye!');
