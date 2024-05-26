@@ -12,7 +12,8 @@ const allKeys = JSON.parse(fs.readFileSync(ALL_KEYS_FILE, 'utf8'));
 // Initialize readline interface
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
+  prompt: '> ',
 });
 
 // Function to normalize keys by replacing UUIDs and indices
@@ -83,6 +84,13 @@ function extractValues() {
   return valuesMap;
 }
 
+// Function to convert possible values to TypeScript literal types
+function toLiteralTypes(possibleValues) {
+  return Array.from(possibleValues).map(value => JSON.parse(value)) // Parse JSON strings
+    .map(value => typeof value === 'string' ? `'${value}'` : value) // Wrap strings in single quotes
+    .join(' | ');
+}
+
 // Function to prompt user for key and display possible values
 async function promptUserForKey(valuesMap) {
   return new Promise((resolve) => {
@@ -90,7 +98,8 @@ async function promptUserForKey(valuesMap) {
       const normalizedKey = normalizeKey(key);
       if (valuesMap[normalizedKey]) {
         console.log(`Key: ${normalizedKey}`);
-        console.log(`Possible Values: ${Array.from(valuesMap[normalizedKey]).join(', ')}`);
+        const literalTypes = toLiteralTypes(valuesMap[normalizedKey]);
+        console.log(`Possible Values: ${literalTypes}`);
       } else {
         console.log(`No values found for key: ${normalizedKey}`);
       }
@@ -104,10 +113,15 @@ async function main() {
   // Extract values from plist files
   const valuesMap = extractValues();
 
-  // Prompt user for key and display possible values
-  await promptUserForKey(valuesMap);
-
-  rl.close();
+  // REPL loop to prompt user for key and display possible values
+  rl.prompt();
+  rl.on('line', async (line) => {
+    await promptUserForKey(valuesMap);
+    rl.prompt();
+  }).on('close', () => {
+    console.log('Goodbye!');
+    process.exit(0);
+  });
 }
 
 // Execute the main function
