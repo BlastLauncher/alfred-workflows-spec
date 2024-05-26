@@ -86,7 +86,7 @@ function extractValues() {
 function toLiteralTypes(possibleValues) {
   return Array.from(possibleValues)
     .map(value => JSON.parse(value)) // Parse JSON strings
-    .map(value => (typeof value === 'string' ? `'${value}'` : value)) // Wrap strings in single quotes
+    .map(value => (typeof value === 'string' ? `'${value}'` : JSON.stringify(value))) // Wrap strings in single quotes. Use JSON.stringify for objects.
     .join(' | ');
 }
 
