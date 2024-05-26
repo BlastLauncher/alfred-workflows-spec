@@ -32,18 +32,25 @@ type IconNode = {
   vitoclose: boolean;
 };
 
+type ObjectConfigItem = {
+  title: string;
+  imagefile: string;
+  arg: string;
+  subtitle: string;
+}
+
 // objects.<INDEX>.config
 type ObjectConfig = {
   // objects.<INDEX>.config.acceptsfiles
   acceptsfiles: boolean;
   // objects.<INDEX>.config.acceptsmulti
-  acceptsmulti: boolean;
+  acceptsmulti: 0 | 1;
   // objects.<INDEX>.config.acceptstext
   acceptstext: boolean;
   // objects.<INDEX>.config.acceptsurls
   acceptsurls: boolean;
   // objects.<INDEX>.config.action
-  action: string;
+  action: 0 | 1;
   // objects.<INDEX>.config.addfilestobuffer
   addfilestobuffer: boolean;
   // objects.<INDEX>.config.adduuid
@@ -51,25 +58,27 @@ type ObjectConfig = {
   // objects.<INDEX>.config.alfredfiltersresults
   alfredfiltersresults: boolean;
   // objects.<INDEX>.config.alfredfiltersresultsmatchmode
-  alfredfiltersresultsmatchmode: string;
+  alfredfiltersresultsmatchmode: 0 | 1 | 2;
   // objects.<INDEX>.config.alignment
-  alignment: string;
+  alignment: 0;
   // objects.<INDEX>.config.allowemptyfiles
   allowemptyfiles: boolean;
   // objects.<INDEX>.config.anchorfields
-  anchorfields: string;
+  anchorfields: boolean;
   // objects.<INDEX>.config.applescript
-  applescript: string;
+  applescript: unknown;
   // objects.<INDEX>.config.argument
+  // 3 | '{var:plist_path}' | 1 | '{query}' | 0 | 'timer {query}' | 'Apple TV' | 'Replace this text with your rich snippet’s name' | '{variables}' | '' | '{var:trimmedQuery}' | '{var:theInput}' | 'x-apple.systempreferences:com.apple.wifi-settings-extension' | '{var:timer_id}' | ''{query}', {variables}' | '{var:query}' | '{clipboard:1}⑅{clipboard:0}' | '{var:theText}' | '9{query}'
   argument: string;
+
   // objects.<INDEX>.config.argumenttext
   argumenttext: string;
   // objects.<INDEX>.config.argumenttreatemptyqueryasnil
   argumenttreatemptyqueryasnil: boolean;
   // objects.<INDEX>.config.argumenttrimmode
-  argumenttrimmode: string;
+  argumenttrimmode: 0 | 1;
   // objects.<INDEX>.config.argumenttype
-  argumenttype: string;
+  argumenttype: 0 | 1 | 2 | 3;
   // objects.<INDEX>.config.autopaste
   autopaste: boolean;
   // objects.<INDEX>.config.availableviaurlhandler
@@ -77,8 +86,9 @@ type ObjectConfig = {
   // objects.<INDEX>.config.backgroundcolor
   backgroundcolor: string;
   // objects.<INDEX>.config.behaviour
-  behaviour: string;
+  behaviour: unknown;
   // objects.<INDEX>.config.browser
+  // '' | 'org.mozilla.firefox' bundle indentifier
   browser: string;
   // objects.<INDEX>.config.button1
   button1: string;
@@ -91,8 +101,9 @@ type ObjectConfig = {
   // objects.<INDEX>.config.clearbuffer
   clearbuffer: boolean;
   // objects.<INDEX>.config.cleardebuggertext
-  cleardebuggertext: string;
+  cleardebuggertext: boolean;
   // objects.<INDEX>.config.clipboardtext
+  // '{var:url}' | '{query}' | '' | '{var:myTextOutput}
   clipboardtext: string;
   // objects.<INDEX>.config.columncount
   columncount: number;
@@ -121,11 +132,11 @@ type ObjectConfig = {
   // objects.<INDEX>.config.elselabel
   elselabel: string;
   // objects.<INDEX>.config.escaping
-  escaping: string;
+  escaping: 68 | 102 | 0 | 127 | 63 | 126 | 36;
   // objects.<INDEX>.config.expression
   expression: string;
   // objects.<INDEX>.config.externaltriggerid
-  externaltriggerid: string;
+  externaltriggerid: 'new_from_action' | 'notify' | 'file_list' | 'copy_url';
   // objects.<INDEX>.config.fadespeed
   fadespeed: number;
   // objects.<INDEX>.config.fields.<INDEX>
@@ -139,57 +150,57 @@ type ObjectConfig = {
   // objects.<INDEX>.config.fileutivariablename
   fileutivariablename: string;
   // objects.<INDEX>.config.fillmode
-  fillmode: string;
+  fillmode: 0;
   // objects.<INDEX>.config.filterable
   filterable: boolean;
   // objects.<INDEX>.config.fixedorder
   fixedorder: boolean;
   // objects.<INDEX>.config.focusedappvariable
-  focusedappvariable: string;
+  focusedappvariable: boolean;
   // objects.<INDEX>.config.focusedappvariablename
   focusedappvariablename: string;
   // objects.<INDEX>.config.font
   font: string;
   // objects.<INDEX>.config.fontmode
-  fontmode: string;
+  fontmode: unknown;
   // objects.<INDEX>.config.fontsizing
-  fontsizing: string;
+  fontsizing: unknown;
   // objects.<INDEX>.config.footertext
   footertext: string;
   // objects.<INDEX>.config.hideelse
   hideelse: boolean;
   // objects.<INDEX>.config.hotkey
-  hotkey: string;
+  hotkey: 0 | 35 | 1 | 29;
   // objects.<INDEX>.config.hotmod
-  hotmod: string;
+  hotmod: 0 | 524288 | 1835008 | 786432;
   // objects.<INDEX>.config.hotstring
-  hotstring: string;
+  hotstring: '' | 'P' | 'S' | '0';
   // objects.<INDEX>.config.ignoredynamicplaceholders
   ignoredynamicplaceholders: boolean;
   // objects.<INDEX>.config.imageaspect
-  imageaspect: string;
+  imageaspect: unknown;
   // objects.<INDEX>.config.imageresizemode
-  imageresizemode: string;
+  imageresizemode: unknown;
   // objects.<INDEX>.config.includesystem
   includesystem: boolean;
   // objects.<INDEX>.config.inputfile
-  inputfile: string;
+  inputfile: unknown;
   // objects.<INDEX>.config.inputmode
-  inputmode: string;
+  inputmode: 0 | 1;
   // objects.<INDEX>.config.inputstring
   inputstring: string;
   // objects.<INDEX>.config.inputtype
   inputtype: string;
   // objects.<INDEX>.config.items
-  items: string;
+  items: Array<ObjectConfigItem>;
   // objects.<INDEX>.config.json
-  json: string;
+  json: unknown;
   // objects.<INDEX>.config.jumpto
   jumpto: string;
   // objects.<INDEX>.config.keychar
   keychar: string;
   // objects.<INDEX>.config.keycode
-  keycode: string;
+  keycode: unknown;
   // objects.<INDEX>.config.keymod
   keymod: string;
   // objects.<INDEX>.config.keyword
@@ -199,7 +210,7 @@ type ObjectConfig = {
   // objects.<INDEX>.config.largetypetext
   largetypetext: string;
   // objects.<INDEX>.config.lastpathcomponent
-  lastpathcomponent: string;
+  lastpathcomponent: boolean;
   // objects.<INDEX>.config.leftcursor
   leftcursor: boolean;
   // objects.<INDEX>.config.limit
@@ -209,11 +220,12 @@ type ObjectConfig = {
   // objects.<INDEX>.config.matchcasesensitive
   matchcasesensitive: boolean;
   // objects.<INDEX>.config.matchmode
-  matchmode: string;
+  matchmode: 0 | 1;
   // objects.<INDEX>.config.matchstring
+  // regex
   matchstring: string;
   // objects.<INDEX>.config.modsmode
-  modsmode: string;
+  modsmode: 0;
   // objects.<INDEX>.config.name
   name: string;
   // objects.<INDEX>.config.onlyshowifquerypopulated
@@ -221,21 +233,21 @@ type ObjectConfig = {
   // objects.<INDEX>.config.openwith
   openwith: string;
   // objects.<INDEX>.config.outputas
-  outputas: string;
+  outputas: 0;
   // objects.<INDEX>.config.outputfileuti
   outputfileuti: string;
   // objects.<INDEX>.config.outputmode
-  outputmode: string;
+  outputmode: 0 | 1;
   // objects.<INDEX>.config.outputtype
-  outputtype: string;
+  outputtype: unknown;
   // objects.<INDEX>.config.overridewithargument
-  overridewithargument: boolean;
+  overridewithargument: unknown;
   // objects.<INDEX>.config.passinputasargument
   passinputasargument: boolean;
   // objects.<INDEX>.config.passthroughargument
   passthroughargument: boolean;
   // objects.<INDEX>.config.passvariables
-  passvariables: Array<{ [variableKey: string]: any }>;
+  passvariables: boolean;
   // objects.<INDEX>.config.path
   path: string;
   // objects.<INDEX>.config.paths.<INDEX>
@@ -243,13 +255,13 @@ type ObjectConfig = {
   // objects.<INDEX>.config.processoutputs
   processoutputs: boolean;
   // objects.<INDEX>.config.queuedelaycustom
-  queuedelaycustom: boolean;
+  queuedelaycustom: 1 | 3;
   // objects.<INDEX>.config.queuedelayimmediatelyinitially
   queuedelayimmediatelyinitially: boolean;
   // objects.<INDEX>.config.queuedelaymode
-  queuedelaymode: string;
+  queuedelaymode: 0 | 1;
   // objects.<INDEX>.config.queuemode
-  queuemode: string;
+  queuemode: 1 | 2;
   // objects.<INDEX>.config.regexcaseinsensitive
   regexcaseinsensitive: boolean;
   // objects.<INDEX>.config.regexmultiline
@@ -257,9 +269,9 @@ type ObjectConfig = {
   // objects.<INDEX>.config.relatedApps.<INDEX>
   relatedApps: Array<string>;
   // objects.<INDEX>.config.relatedAppsMode
-  relatedAppsMode: string;
+  relatedAppsMode: 0 | 1;
   // objects.<INDEX>.config.relativepathmode
-  relativepathmode: string;
+  relativepathmode: -1;
   // objects.<INDEX>.config.removeextension
   removeextension: boolean;
   // objects.<INDEX>.config.replacestring
@@ -271,15 +283,16 @@ type ObjectConfig = {
   // objects.<INDEX>.config.script
   script: string;
   // objects.<INDEX>.config.scriptargtype
-  scriptargtype: string;
+  scriptargtype: 0 | 1;
   // objects.<INDEX>.config.scriptfile
   scriptfile: string;
   // objects.<INDEX>.config.scriptinput
   scriptinput: string;
   // objects.<INDEX>.config.searcher
-  searcher: string;
+  searcher: number;
   // objects.<INDEX>.config.seconds
-  seconds: number;
+  // '1.5' | '{query}'
+  seconds: string;
   // objects.<INDEX>.config.shortcut
   shortcut: string;
   // objects.<INDEX>.config.showallwords
@@ -295,15 +308,15 @@ type ObjectConfig = {
   // objects.<INDEX>.config.skipvarencode
   skipvarencode: boolean;
   // objects.<INDEX>.config.sortBy
-  sortBy: string;
+  sortBy: 0;
   // objects.<INDEX>.config.sortDirection
-  sortDirection: string;
+  sortDirection: 0;
   // objects.<INDEX>.config.sortFoldersAtTop
   sortFoldersAtTop: boolean;
   // objects.<INDEX>.config.sortOverride
   sortOverride: boolean;
   // objects.<INDEX>.config.sortmode
-  sortmode: string;
+  sortmode: 0;
   // objects.<INDEX>.config.soundname
   soundname: string;
   // objects.<INDEX>.config.sourcefile
@@ -311,7 +324,7 @@ type ObjectConfig = {
   // objects.<INDEX>.config.spaces
   spaces: boolean;
   // objects.<INDEX>.config.spellchecking
-  spellchecking: boolean;
+  spellchecking: unknown;
   // objects.<INDEX>.config.stackBrowserView
   stackBrowserView: boolean;
   // objects.<INDEX>.config.stackview
@@ -319,9 +332,9 @@ type ObjectConfig = {
   // objects.<INDEX>.config.subtext
   subtext: string;
   // objects.<INDEX>.config.subtitlesinfooter
-  subtitlesinfooter: boolean;
+  subtitlesinfooter: unknown;
   // objects.<INDEX>.config.systemsound
-  systemsound: string;
+  systemsound: boolean;
   // objects.<INDEX>.config.tasksettings
   tasksettings: TaskSettings;
   // objects.<INDEX>.config.taskuid
@@ -333,9 +346,9 @@ type ObjectConfig = {
   // objects.<INDEX>.config.title
   title: string;
   // objects.<INDEX>.config.titlesinfooter
-  titlesinfooter: boolean;
+  titlesinfooter: unknown;
   // objects.<INDEX>.config.toggle
-  toggle: boolean;
+  toggle: unknown;
   // objects.<INDEX>.config.transient
   transient: boolean;
   // objects.<INDEX>.config.triggerid
@@ -345,17 +358,17 @@ type ObjectConfig = {
   // objects.<INDEX>.config.trimarguments
   trimarguments: boolean;
   // objects.<INDEX>.config.type
-  type: string;
+  type: 0 | 5 | 2 | 8 | 7 | 6 | 11 | 1 | 3;
   // objects.<INDEX>.config.types.<INDEX>
-  types: Array<string>;
+  types: Array<number>;
   // objects.<INDEX>.config.unstackview
-  unstackview: boolean;
+  unstackview: unknown;
   // objects.<INDEX>.config.url
   url: string;
   // objects.<INDEX>.config.usevoiceover
   usevoiceover: boolean;
   // objects.<INDEX>.config.utf8
-  utf8: boolean;
+  utf8: unknown;
   // objects.<INDEX>.config.variableprefix
   variableprefix: string;
   // objects.<INDEX>.config.variables.<VARIABLE>
@@ -365,7 +378,7 @@ type ObjectConfig = {
   // objects.<INDEX>.config.words
   words: string;
   // objects.<INDEX>.config.wordseparatortype
-  wordseparatortype: string;
+  wordseparatortype: 1;
   // objects.<INDEX>.config.workflowbundleid
   workflowbundleid: string;
   // objects.<INDEX>.config.workflowonly
@@ -446,7 +459,7 @@ type Condition = {
   // objects.<INDEX>.config.conditions.<INDEX>.matchcasesensitive
   matchcasesensitive: boolean;
   // objects.<INDEX>.config.conditions.<INDEX>.matchmode
-  matchmode: string;
+  matchmode: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   // objects.<INDEX>.config.conditions.<INDEX>.matchstring
   matchstring: string;
   // objects.<INDEX>.config.conditions.<INDEX>.outputlabel
@@ -462,11 +475,11 @@ type Field = {
   // objects.<INDEX>.config.fields.<INDEX>.not
   not: boolean;
   // objects.<INDEX>.config.fields.<INDEX>.split
-  split: string;
+  split: boolean;
   // objects.<INDEX>.config.fields.<INDEX>.value
   value: string;
   // objects.<INDEX>.config.fields.<INDEX>.words
-  words: string;
+  words: boolean;
 };
 
 // objects.<INDEX>.inboundconfig
@@ -490,7 +503,7 @@ export type AlfredWorkflow = {
   // bundleid
   bundleid: string;
   // category
-  category: string;
+  category: 'myWorkflows' | 'Tools' | 'Productivity' | 'Internet' | 'Docs' | '⭐️' | 'Universal Action' | 'Self-Dev' | 'Dev' | 'Utilities' | 'ThoughtAsylum' | 'zbrl' | 'Search' | 'Mine' | 'Development';
   // connections
   connections: Connections;
   // createdby
