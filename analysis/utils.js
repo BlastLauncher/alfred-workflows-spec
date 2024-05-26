@@ -38,6 +38,9 @@ module.exports = {
       if (!obj[part]) {
         obj[part] = {};
       }
+      if (typeof obj[part] !== 'object' || obj[part] === null) {
+        obj[part] = {};
+      }
       obj = obj[part];
     }
     if (typeof obj === 'object' && obj !== null) {

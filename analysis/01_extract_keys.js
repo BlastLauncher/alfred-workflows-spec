@@ -1,6 +1,5 @@
 const fs = require('fs');
-const path = require('path');
-const { parsePlistFiles, sanitizeKey, setNestedProperty } = require('./utils');
+const { parsePlistFiles, sanitizeKey } = require('./utils');
 
 // Directory containing the extracted info.plist files
 const PLISTS_DIR = 'extracted_info_plists';
