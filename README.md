@@ -1,7 +1,8 @@
 # Alfred workflows spec
 
 > [!NOTE]
-> I have to check every possible workflow
+> Current status: WIP
+> Check [`alfred.ts`](./alfred.ts)
 
 ## Usage
 
