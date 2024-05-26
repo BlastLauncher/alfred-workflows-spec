@@ -7,7 +7,7 @@
 
 ### 1. Download all alfred workflows
 
-![downloaded](./docs/images/downloaded.png)
+<img alt="downloaded" src="./docs/images/downloaded.png" width="500">
 
 dependencies: `curl`, `parallel`, `htmlq`
 
